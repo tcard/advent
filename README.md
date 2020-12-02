@@ -10,4 +10,4 @@ $ zig version
 ```
 
 1. [Go](https://github.com/tcard/advent2020/tree/main/1/go) | [Zig](https://github.com/tcard/advent2020/tree/main/1/zig)
-2. [Go](https://github.com/tcard/advent2020/tree/main/2/go)
+2. [Go](https://github.com/tcard/advent2020/tree/main/2/go) | [Rust](https://github.com/tcard/advent2020/tree/main/2/rust)
