@@ -17,6 +17,7 @@ $ zig version
 2. [Go](https://github.com/tcard/advent/tree/main/2020/2/go) | [Rust](https://github.com/tcard/advent/tree/main/2020/2/rust)
 3. [Go](https://github.com/tcard/advent/tree/main/2020/3/go) | [Zig](https://github.com/tcard/advent/tree/main/2020/3/zig)
 4. [Go](https://github.com/tcard/advent/tree/main/2020/4/go)
+5. [Go](https://github.com/tcard/advent/tree/main/2020/5/go)
 
 # 2018
 
