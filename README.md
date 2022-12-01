@@ -2,6 +2,10 @@
 
 I like to experiment and compare languages, and Advent of Code is the perfect opportunity!
 
+## 2022
+
+1. [Pharo](https://github.com/tcard/advent/tree/main/2022/Advent-2022-1)
+
 ## 2020
 
 ```
