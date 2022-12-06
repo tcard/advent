@@ -8,11 +8,14 @@ I like to experiment and compare languages, and Advent of Code is the perfect op
 Pharo 9.0.0
 $ node --version
 v12.18.2
+$ ucm version
+ucm version: release/M2k (built on 2021-11-19)
 ```
 
 1. [Pharo](https://github.com/tcard/advent/tree/main/2022/Advent-2022-1)
 2. [Pharo](https://github.com/tcard/advent/tree/main/2022/Advent-2022-2)
 3. [JavaScript](https://github.com/tcard/advent/tree/main/2022/Advent-2022-3)
+4. [Unison](https://github.com/tcard/advent/tree/main/2022/Advent-2022-4)
 
 ## 2020
 

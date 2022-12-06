@@ -1,0 +1,65 @@
+main : () ->{IO, Exception} ()
+main _ =
+  result = solve (io.getLines io.stdIn)
+  printLine (Nat.toText result)
+
+solve : Text -> Nat
+solve input =
+  input
+    |> parseRanges
+    |> List.filter (pair -> match pair with
+      (a, b) -> (Range.overlapsLeft a b) || (Range.overlapsLeft b a)
+    )
+    |> List.size
+
+structural type Range = { from: Nat, to: Nat }
+
+Range.parse : Text -> Range
+Range.parse input =
+  parts = Text.split ?- input
+  parsePart n =
+    List.at n parts
+      |> Optional.flatMap (Nat.fromText)
+      |> Optional.unwrap
+  Range (parsePart 0) (parsePart 1)
+
+parseRanges : Text -> List (Range, Range)
+parseRanges input =
+  Text.split ?\n input
+    |> List.filter (line -> Text.size line > 0)
+    |> List.map (line -> let
+      parts = Text.split ?, line
+
+      partToRange n =
+        List.at n parts
+          |> Optional.unwrap
+          |> Range.parse
+
+      ( partToRange 0, partToRange 1 )
+    )
+
+Range.overlapsLeft : Range -> Range -> Boolean
+Range.overlapsLeft a b =
+  use Range from to
+  (from a <= from b) && (to a >= from b)
+
+Optional.unwrap : Optional a -> a
+Optional.unwrap = cases
+  Some v -> v
+  None -> bug "unexpected None"
+
+io.getLines : io.Handle ->{IO, Exception} Text
+io.getLines f =
+  addLines acc =
+    acc ++ if isFileEOF f
+      then ""
+      else (io.getLine f) ++ "\n" ++ (addLines acc)
+
+  addLines ""
+
+> solve "2-4,6-8
+2-3,4-5
+5-7,7-9
+2-8,3-7
+6-6,4-6
+2-6,4-8"
