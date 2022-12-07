@@ -10,6 +10,8 @@ $ node --version
 v12.18.2
 $ ucm version
 ucm version: release/M2k (built on 2021-11-19)
+$ python3 --version
+Python 3.9.9
 ```
 
 1. [Pharo](https://github.com/tcard/advent/tree/main/2022/Advent-2022-1)
@@ -17,6 +19,7 @@ ucm version: release/M2k (built on 2021-11-19)
 3. [JavaScript](https://github.com/tcard/advent/tree/main/2022/Advent-2022-3)
 4. [Unison](https://github.com/tcard/advent/tree/main/2022/Advent-2022-4)
 5. [Unison](https://github.com/tcard/advent/tree/main/2022/Advent-2022-5)
+6. [Python](https://github.com/tcard/advent/tree/main/2022/Advent-2022-6)
 
 ## 2020
 
