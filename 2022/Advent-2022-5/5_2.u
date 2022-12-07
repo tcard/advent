@@ -1,0 +1,133 @@
+main : () ->{IO, Exception} ()
+main _ =
+  result = solve (io.getLines io.stdIn)
+  printLine result
+
+solve : [Text] -> Text
+solve input =
+  cranes = match parsePrologue input with
+    (cranes, rest) ->
+      moves = parseMoves rest
+      List.foldLeft move cranes moves
+  List.foldLeft (acc -> cases
+    Crane chars -> acc ++ (
+      List.at 0 chars |> Optional.map Char.toText |> Optional.orDefault ""
+    )
+  ) "" cranes
+
+unique type Crane = Crane [Char]
+
+Crane.pushMany : [Char] -> Crane -> Crane
+Crane.pushMany crates = cases
+  Crane prev -> Crane (crates ++ prev)
+
+Crane.putInBottom : Char -> Crane -> Crane
+Crane.putInBottom c = cases
+  Crane prev -> Crane (prev :+ c)
+
+Crane.popMany : Nat -> Crane -> ([Char], Crane)
+Crane.popMany n = cases
+  Crane crates -> (List.take n crates, Crane (List.drop n crates))
+
+-- parsePrologue parses the prologue of the input that specifies the
+-- initial state of the cranes. It returns the rest of the input.
+parsePrologue : [Text] -> ([Crane], [Text])
+parsePrologue lines =
+  fillCranes cranes lines =
+    line = List.get 0 lines
+    nextLines = List.drop 1 lines
+
+    crates = cratesInEachCrane line
+    if (List.size crates) == 0 then
+      (cranes, List.drop 1 nextLines)
+    else
+      updateCrane crane craneIndex =
+        match List.at craneIndex crates with
+            None -> crane
+            Some None -> crane
+            Some (Some c) -> Crane.putInBottom c crane
+
+      newCranes =
+        cranes |>
+        List.indexed |>
+        List.map (craneWithIndex -> match craneWithIndex with
+          (crane, craneIndex) ->  updateCrane crane craneIndex
+        )
+      
+      fillCranes newCranes nextLines
+
+  emptyCranes = List.fill 10 (Crane [])
+  fillCranes emptyCranes lines
+
+cratesInEachCrane : Text -> [Optional Char]
+cratesInEachCrane line =
+  chars = Text.toCharList line
+
+  fillCranes acc crane =
+    use Char.ascii isDigit isBlank
+
+    -- The crate at crane n is character 4*n+1 in the line
+    charPos = 4 * crane + 1
+
+    match List.at charPos chars with
+      None -> acc
+      Some c ->
+        if isDigit c then
+          -- We're past the crates content, at the crates index line. We're done.
+          acc
+        else
+          crate = if isBlank c then None else Some c
+          newAcc = List.insert crane crate acc
+          fillCranes newAcc (crane + 1)
+    
+  fillCranes [] 0
+
+structural type Move = { amount: Nat, from : Nat, to : Nat }
+
+parseMoves : [Text] -> [Move]
+parseMoves lines =
+  parseLine line =
+    words = Text.split ?  line
+    amount = words |> List.get 1 |> Nat.fromText |> Optional.unwrap
+    from = words |> List.get 3 |> Nat.fromText |> Optional.unwrap
+    to = words |> List.get 5 |> Nat.fromText |> Optional.unwrap
+    Move amount from to
+
+  nonEmptyLines = List.filter (l -> Text.size l > 0) lines
+  List.map parseLine nonEmptyLines
+
+move : [Crane] -> Move -> [Crane]
+move cranes m =
+  from = (Move.from m) - 1 |> Int.toRepresentation
+  to = (Move.to m) - 1 |> Int.toRepresentation
+  match Crane.popMany (Move.amount m) (List.get from cranes) with
+    (crates, newFromCrane) ->
+      newToCrane = Crane.pushMany crates (List.get to cranes)
+      newCranes =
+        cranes |> List.set from newFromCrane |> List.set to newToCrane
+      newCranes
+
+List.get : Nat -> List a -> a
+List.get n list =
+  List.at n list |> Optional.unwrapOr '("out of bounds: " ++ (Nat.toText n))
+
+List.set : Nat -> a -> [a] -> [a]
+List.set n value list =
+  (List.take n list) :+ value ++ (List.drop (n + 1) list)
+
+Optional.unwrap : Optional a -> a
+Optional.unwrap = Optional.unwrapOr '("unexpected None")
+
+Optional.unwrapOr : 'Text -> Optional a -> a
+Optional.unwrapOr message = cases
+  Some v -> v
+  None -> bug !message
+
+io.getLines : io.Handle ->{IO, Exception} [Text]
+io.getLines f =
+  addLines acc =
+    acc ++ if isFileEOF f
+      then []
+      else (io.getLine f) +: (addLines acc)
+
+  addLines []
