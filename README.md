@@ -12,6 +12,8 @@ $ ucm version
 ucm version: release/M2k (built on 2021-11-19)
 $ python3 --version
 Python 3.9.9
+$ rustc --version
+rustc 1.64.0 (a55dd71d5 2022-09-19)
 ```
 
 1. [Pharo](https://github.com/tcard/advent/tree/main/2022/Advent-2022-1)
@@ -20,6 +22,7 @@ Python 3.9.9
 4. [Unison](https://github.com/tcard/advent/tree/main/2022/Advent-2022-4)
 5. [Unison](https://github.com/tcard/advent/tree/main/2022/Advent-2022-5)
 6. [Python](https://github.com/tcard/advent/tree/main/2022/Advent-2022-6)
+7. [Rust](https://github.com/tcard/advent/tree/main/2022/Advent-2022-7)
 
 ## 2020
 
