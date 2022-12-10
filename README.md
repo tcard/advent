@@ -24,6 +24,7 @@ rustc 1.64.0 (a55dd71d5 2022-09-19)
 6. [Python](https://github.com/tcard/advent/tree/main/2022/Advent-2022-6)
 7. [Rust](https://github.com/tcard/advent/tree/main/2022/Advent-2022-7)
 8. [C](https://github.com/tcard/advent/tree/main/2022/Advent-2022-8)
+9. [Rust](https://github.com/tcard/advent/tree/main/2022/Advent-2022-9)
 
 ## 2020
 
